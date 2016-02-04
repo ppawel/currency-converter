@@ -30,7 +30,8 @@ body>.grid {
 			<form class="ui equal width form" action="" method="GET">
 				<div class="fields">
 					<div class="field">
-						<label>Base currency</label> <select th:value="${param.containsKey('base') ? param.base[0] : 'USD'}"
+						<label>Base currency</label> <select
+							th:value="${param.containsKey('base') ? param.base[0] : 'USD'}"
 							name="base">
 							<option value="USD">USD</option>
 							<option value="EUR">EUR</option>
@@ -38,7 +39,8 @@ body>.grid {
 						</select>
 					</div>
 					<div class="field">
-						<label>Target currency</label> <select th:value="${param.containsKey('target') ? param.target[0] : 'EUR'}"
+						<label>Target currency</label> <select
+							th:value="${param.containsKey('target') ? param.target[0] : 'EUR'}"
 							name="target">
 							<option value="EUR">EUR</option>
 							<option value="GBP">GBP</option>
@@ -81,6 +83,10 @@ body>.grid {
 					</tr>
 				</tbody>
 			</table>
+
+			<div>
+				<a href="logout">log out</a>
+			</div>
 		</div>
 	</div>
 </body>
