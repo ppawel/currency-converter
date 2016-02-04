@@ -1,6 +1,7 @@
 package com.example.ppawel.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 		return provider.listCurrencies();
 	}
 
-	public BigDecimal getExchangeRate(String currencyCodeFrom, String currencyCodeTo, long timestamp) {
+	public BigDecimal getExchangeRate(String currencyCodeFrom, String currencyCodeTo, Date timestamp) {
 		return provider.getExchangeRate(currencyCodeFrom, currencyCodeTo, timestamp);
 	}
 

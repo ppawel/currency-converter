@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Currency Converter by ppawel</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous"></link>
+</head>
+<body>
+	<div th:if="${registered}">You have just successfully registered!
+		Please log in below.</div>
+	<div th:if="${param.error}">Invalid username and password.</div>
+	<div th:if="${param.logout}">You have been logged out.</div>
+	<form th:action="@{/login}" method="post">
+		<div>
+			<label> E-mail: <input type="text" name="username" />
+			</label>
+		</div>
+		<div>
+			<label> Password: <input type="password" name="password" />
+			</label>
+		</div>
+		<div>
+			<input type="submit" value="Login" />
+		</div>
+	</form>
+
+	<form th:action="@{/register}" th:object="${data}" method="post">
+		<div class="form-group" th:errorclass="has-error">
+			<label class="control-label" for="email">E-mail</label> <input type="email"
+				class="form-control" name="email" th:field="*{email}" />
+		</div>
+		<div class="form-group" th:errorclass="has-error">
+			<label for="password">Password</label> <input type="password"
+				class="form-control" name="password" />
+		</div>
+		<div>
+			<button type="submit" class="btn btn-default">Register</button>
+		</div>
+	</form>
+</body>
+</html>
