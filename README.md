@@ -40,7 +40,9 @@ This should start the embedded Tomcat and the application will be available at h
 
 ## Spring Actuator
 
-After you register and log in you will be able to access Spring Actuator endpoints, e.g. http://localhost:8080/health. Spring Actuator also exposes JMX MBeans so it's possible to connect to the JVM with `jvisualvm`.
+After you register and log in you will be able to access Spring Actuator endpoints, e.g. http://localhost:8080/dump for thread dump, health indicators and much more. Full list of endpoints can be found [here](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html).
+
+Spring Actuator also exposes JMX MBeans so it's possible to connect to the JVM with `jvisualvm`.
 
 ## Jenkins
 
