@@ -1,6 +1,8 @@
 package com.example.ppawel.test.cucumber;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
@@ -85,6 +87,11 @@ public class ExchangeRatesStepdefs {
 		assertThat(this.rate, is(rate));
 	}
 
+	@Then("^I should get no result$")
+	public void i_should_get_no_result() throws Throwable {
+		assertThat(this.rate, nullValue());
+	}
+
 	@Then("^I should get a reasonable result$")
 	public void i_should_get_reasonable() throws Throwable {
 		assertThat(this.rate, greaterThan(new BigDecimal(0.5)));
@@ -104,9 +111,9 @@ public class ExchangeRatesStepdefs {
 		}
 	}
 
-	@Then("^I should get (\\d+) user queries$")
+	@Then("^I should get at least (\\d+) user queries$")
 	public void i_should_get_user_queries(int arg1) throws Throwable {
-		assertThat(userService.listUserQueries().size(), is(count + 3));
+		assertThat(userService.listUserQueries().size(), greaterThanOrEqualTo(count));
 	}
 
 }

@@ -21,9 +21,16 @@ Feature: Exchange Rates
     When I ask for exchange rate on 2005-05-23
     Then I should get 0.546831
 
+  Scenario: Get current GBP/EUR rate - OER API
+    Given base currency GBP
+    And target currency EUR
+    And OER currency data provider
+    When I ask for current exchange rate
+    Then I should get no result
+
   Scenario: Check saved user queries
     Given base currency USD
     And target currency EUR
     And mock currency data provider
     When I ask 5 times for current exchange rate
-    Then I should get 5 user queries
+    Then I should get at least 5 user queries

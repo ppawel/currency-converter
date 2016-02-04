@@ -11,5 +11,9 @@
 		<Root level="info" additivity="false">
 			<AppenderRef ref="console" />
 		</Root>
+
+		<Logger name="com.example.ppawel" level="debug" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
 	</Loggers>
 </Configuration>
