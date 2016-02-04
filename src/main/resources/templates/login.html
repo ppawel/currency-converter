@@ -15,16 +15,13 @@ body>.grid {
 	height: 100%;
 }
 
-.column {
-	max-width: 1024px;
-}
 </style>
 </head>
 <body>
 	<div th:if="${param.logout}">You have been logged out.</div>
 
-	<div class="ui two column middle aligned very relaxed stackable grid">
-		<div class="center aligned column">
+	<div class="ui two column middle aligned very relaxed stackable centered grid">
+		<div class="six wide center aligned column">
 			<h2 class="ui image header">
 				<div class="content">Log in</div>
 			</h2>
@@ -54,7 +51,7 @@ body>.grid {
 
 		<div class="ui vertical divider">Or</div>
 
-		<div class="center aligned column">
+		<div class="six wide center aligned column">
 			<h2 class="ui image header">
 				<div class="content">Register</div>
 			</h2>
