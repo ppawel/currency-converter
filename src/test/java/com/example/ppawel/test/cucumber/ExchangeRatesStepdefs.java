@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,7 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import com.example.ppawel.service.CurrencyDataProvider;
 import com.example.ppawel.service.CurrencyService;
 import com.example.ppawel.service.UserService;
-import com.example.ppawel.service.impl.OERCurrencyDataProvider;
 
 import cucumber.api.Format;
 import cucumber.api.java.Before;
@@ -38,7 +38,8 @@ public class ExchangeRatesStepdefs {
 	private UserService userService;
 
 	@Autowired
-	private OERCurrencyDataProvider oerProvider;
+	@Qualifier("OERCurrencyDataProvider")
+	private CurrencyDataProvider oerProvider;
 
 	private CurrencyDataProvider provider;
 
