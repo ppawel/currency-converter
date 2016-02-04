@@ -4,13 +4,11 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.ppawel.model.Currency;
 import com.example.ppawel.service.CurrencyDataProvider;
 
 /**
@@ -29,13 +27,6 @@ public class OERCurrencyDataProvider implements CurrencyDataProvider {
 	private String appId = "e48903f3d4ee44e28398792694cd3b77";
 
 	private RestTemplate restTemplate = new RestTemplate();
-
-	@Override
-	public List<Currency> listCurrencies() {
-
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public BigDecimal getExchangeRate(String currencyCodeFrom, String currencyCodeTo, Date timestamp) {

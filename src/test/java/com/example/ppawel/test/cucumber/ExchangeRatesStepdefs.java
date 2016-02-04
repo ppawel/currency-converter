@@ -11,13 +11,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.example.ppawel.service.CurrencyDataProvider;
 import com.example.ppawel.service.CurrencyService;
+import com.example.ppawel.service.UserService;
 import com.example.ppawel.service.impl.OERCurrencyDataProvider;
 
 import cucumber.api.Format;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -29,6 +33,9 @@ public class ExchangeRatesStepdefs {
 	private CurrencyService currencyService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private OERCurrencyDataProvider oerProvider;
 
 	private CurrencyDataProvider provider;
@@ -38,6 +45,13 @@ public class ExchangeRatesStepdefs {
 	private String targetCurrency;
 
 	private BigDecimal rate;
+
+	private int count;
+
+	@Before
+	public void init() {
+		SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken("test@test.pl", ""));
+	}
 
 	@Given("^mock currency data provider$")
 	public void mock_currency_data_provider() throws Throwable {
@@ -81,4 +95,18 @@ public class ExchangeRatesStepdefs {
 	public void i_ask_for_exchange_rate_on(@Format("yyyy-MM-dd") Date date) throws Throwable {
 		rate = currencyService.getExchangeRate(baseCurrency, targetCurrency, date);
 	}
+
+	@When("^I ask (\\d+) times for current exchange rate$")
+	public void i_ask_times_for_current_exchange_rate(int count) throws Throwable {
+		this.count = count;
+		for (int i = 0; i < count; i++) {
+			currencyService.getExchangeRate(baseCurrency, targetCurrency);
+		}
+	}
+
+	@Then("^I should get (\\d+) user queries$")
+	public void i_should_get_user_queries(int arg1) throws Throwable {
+		assertThat(userService.listUserQueries().size(), is(count + 3));
+	}
+
 }

@@ -5,41 +5,83 @@
 <head>
 <title>Currency Converter by ppawel</title>
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
-	crossorigin="anonymous"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css"></link>
+<style type="text/css">
+body {
+	background-color: #DADADA;
+}
+
+body>.grid {
+	height: 100%;
+}
+
+.column {
+	max-width: 1024px;
+}
+</style>
 </head>
 <body>
-	<div th:if="${registered}">You have just successfully registered!
-		Please log in below.</div>
-	<div th:if="${param.error}">Invalid username and password.</div>
-	<div th:if="${param.logout}">You have been logged out.</div>
-	<form th:action="@{/login}" method="post">
-		<div>
-			<label> E-mail: <input type="text" name="username" />
-			</label>
-		</div>
-		<div>
-			<label> Password: <input type="password" name="password" />
-			</label>
-		</div>
-		<div>
-			<input type="submit" value="Login" />
-		</div>
-	</form>
+	<div class="ui centered grid">
+		<div class="center aligned column">
+			<h2 class="ui image header">
+				<div class="content">Check exchange rate</div>
+			</h2>
 
-	<form th:action="@{/register}" th:object="${data}" method="post">
-		<div class="form-group" th:errorclass="has-error">
-			<label class="control-label" for="email">E-mail</label> <input type="email"
-				class="form-control" name="email" th:field="*{email}" />
+			<form class="ui equal width form" action="" method="GET">
+				<div class="fields">
+					<div class="field">
+						<label>Base currency</label> <select th:value="${param.base[0]}"
+							name="base">
+							<option value="USD">USD</option>
+							<option value="EUR">EUR</option>
+							<option value="GBP">GBP</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Target currency</label> <select th:value="${param.target[0]}"
+							name="target">
+							<option value="EUR">EUR</option>
+							<option value="GBP">GBP</option>
+							<option value="USD">USD</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Date (if empty, get latest rate)</label> <input type="text"
+							th:value="*{date}" placeholder="YYYY-MM-DD" name="date" />
+					</div>
+				</div>
+				<div class="field">
+					<input type="submit" class="ui large fluid primary button"
+						value="Check" />
+				</div>
+			</form>
+
+			<div th:if="*{rate}" class="ui message">
+				Exchange rate <span th:text="${param.base[0]}"></span>/<span
+					th:text="${param.target[0]}"></span>: <span th:text="*{rate}"></span>
+			</div>
+
+			<h2 class="ui image header">
+				<div class="content">Past queries</div>
+			</h2>
+
+			<table class="ui table">
+				<thead>
+					<th>Base</th>
+					<th>Target</th>
+					<th>Rate</th>
+					<th>Date</th>
+				</thead>
+				<tbody>
+					<tr th:each="row,rowStat : ${queries}">
+						<td th:text="${row.baseCurrency}"></td>
+						<td th:text="${row.targetCurrency}"></td>
+						<td th:text="${row.rate}"></td>
+						<td th:text="${#dates.formatISO(row.date)}"></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<div class="form-group" th:errorclass="has-error">
-			<label for="password">Password</label> <input type="password"
-				class="form-control" name="password" />
-		</div>
-		<div>
-			<button type="submit" class="btn btn-default">Register</button>
-		</div>
-	</form>
+	</div>
 </body>
 </html>
