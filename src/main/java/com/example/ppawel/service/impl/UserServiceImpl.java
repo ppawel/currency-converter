@@ -1,6 +1,9 @@
 package com.example.ppawel.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +25,24 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository repository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public User register(UserRegistrationData data) {
 		User user = new User();
+
 		user.setEmail(data.getEmail());
-		return repository.save(user);
+		user.setPassword(passwordEncoder.encode(data.getPassword()));
+
+		user = repository.save(user);
+
+		return user;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return repository.findByEmail(username);
 	}
 
 }
