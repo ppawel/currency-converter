@@ -6,7 +6,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,16 +23,22 @@ public class User implements UserDetails {
 	@GeneratedValue
 	private Long id;
 
+	@NotBlank
+	@Email
 	private String email;
 
 	private String password;
 
+	@NotNull
 	private Date birthDate;
 
+	@NotBlank
 	private String street;
 
+	@NotBlank
 	private String city;
 
+	@NotBlank
 	private String countryCode;
 
 	public User() {

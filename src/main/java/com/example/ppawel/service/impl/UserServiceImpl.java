@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
 
 		user.setEmail(data.getEmail());
 		user.setPassword(passwordEncoder.encode(data.getPassword()));
+		user.setBirthDate(data.getBirthDate());
+		user.setStreet(data.getStreet());
+		user.setCity(data.getCity());
+		user.setCountryCode(data.getCountryCode());
 
 		user = repository.save(user);
 

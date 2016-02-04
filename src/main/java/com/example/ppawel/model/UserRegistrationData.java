@@ -3,9 +3,12 @@ package com.example.ppawel.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Data transfer object for data related to new user registration.
@@ -17,19 +20,17 @@ public class UserRegistrationData implements Serializable {
 
 	private static final long serialVersionUID = -6494230977938111214L;
 
-	@NotBlank
-	@Email
 	private String email;
 
 	@NotBlank
 	private String password;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
 
 	private String street;
 
-
 	private String city;
-
 
 	private String countryCode;
 

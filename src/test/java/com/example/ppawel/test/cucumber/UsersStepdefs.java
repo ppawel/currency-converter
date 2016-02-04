@@ -7,6 +7,10 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,9 +46,26 @@ public class UsersStepdefs {
 
 	private AuthenticationException exception;
 
+	private Set<ConstraintViolation<?>> errors;
+
 	@Given("^e-mail (.*)$")
 	public void e_mail(String email) {
 		data.setEmail(email);
+	}
+
+	@Given("^country (.*)$")
+	public void country(String value) {
+		data.setCountryCode(value);
+	}
+
+	@Given("^street (.*)$")
+	public void street(String value) {
+		data.setStreet(value);
+	}
+
+	@Given("^city (.*)$")
+	public void city(String value) {
+		data.setCity(value);
 	}
 
 	@Given("^password (.*)$")
@@ -59,7 +80,11 @@ public class UsersStepdefs {
 
 	@When("^I try to register$")
 	public void i_try_to_register() throws Throwable {
-		user = userService.register(data);
+		try {
+			user = userService.register(data);
+		} catch (ConstraintViolationException e) {
+			errors = e.getConstraintViolations();
+		}
 	}
 
 	@Then("^I should be registered$")
@@ -77,6 +102,11 @@ public class UsersStepdefs {
 		} catch (AuthenticationException e) {
 			exception = e;
 		}
+	}
+
+	@Then("^I should get error messages$")
+	public void i_should_get_error_messages() throws Throwable {
+		assertThat(errors, notNullValue());
 	}
 
 	@Then("^I should be logged in$")

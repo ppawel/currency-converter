@@ -71,6 +71,12 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Spring Actuator - monitoring/management features -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<!-- Cucumber -->
 
 		<dependency>
