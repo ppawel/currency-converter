@@ -19,14 +19,13 @@ import org.springframework.test.context.ContextConfiguration;
 import com.example.ppawel.model.User;
 import com.example.ppawel.model.UserRegistrationData;
 import com.example.ppawel.service.UserService;
-import com.example.ppawel.spring.Application;
 
 import cucumber.api.Format;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-@ContextConfiguration(classes = Application.class)
+@ContextConfiguration(classes = TestConfig.class)
 public class UsersStepdefs {
 
 	@Autowired

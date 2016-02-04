@@ -10,17 +10,15 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.example.ppawel.model.ExchangeRate;
 import com.example.ppawel.service.CurrencyDataProvider;
 import com.example.ppawel.service.CurrencyService;
-import com.example.ppawel.spring.Application;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-@ContextConfiguration(classes = Application.class)
+@ContextConfiguration(classes = TestConfig.class)
 public class ExchangeRatesStepdefs {
 
 	@Autowired
