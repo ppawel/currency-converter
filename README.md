@@ -2,9 +2,9 @@ This is a demo project that I implemented during one of the recruitment processe
 
 My implementation may seem overengineered in some places but it was a conscious decision to build this in such a way that it would be a good starting point for a real project.
 
-## Technologies
+[Live demo](http://cc.jcore.pl/)
 
-I chosen the following technologies:
+## Technologies
 
 * __Spring Framework__ - must-have on every project :-)
 
