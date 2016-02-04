@@ -14,7 +14,7 @@ I chosen the following technologies:
 
 * __JPA__ - with Hibernate as persistence provider and hsqldb (in-memory) as database.
 
-* __Ehcache__ - for caching external calls, nicely integrates with Spring thanks to Spring Boot's autoconfiguration features (when ehcache is detected on classpath, configured cache manager is automatically created for you).
+* __Ehcache__ - for caching external calls, nicely integrates with Spring thanks to Spring Boot's autoconfiguration features (when ehcache is detected on classpath, configured cache manager is automatically created for you). [ehcache.xml](/src/main/resources/ehcache.xml) contains settings for cache sizing, TTL, persistence...
 
 * __Thymeleaf__ - pretty cool view technology which nicely integrates with Spring MVC. This was actually my first time using it and I chose it because I just couldn't bring myself to using JSP or Freemarker in 2016...
 
@@ -38,8 +38,16 @@ This builds a Spring Boot executable jar file with embedded Tomcat.
 
 This should start the embedded Tomcat and the application will be available at http://localhost:8080/.
 
+## Spring Actuator
+
+After you register and log in you will be able to access Spring Actuator endpoints, e.g. http://localhost:8080/health. Spring Actuator also exposes JMX MBeans so it's possible to connect to the JVM with `jvisualvm`.
+
 ## Jenkins
 
 Build and deployment jobs are on Jenkins here:
 
 http://jenkins.jcore.pl/ (`currency-converter-*` jobs should be accessible without authentication)
+
+## TODO
+
+* Externalize configuration, e.g. appID used for API calls.
