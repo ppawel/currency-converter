@@ -42,8 +42,8 @@ body {
 							<option value="USD">USD</option>
 						</select>
 					</div>
-					<div class="field">
-						<label>Amount</label> <input type="number" th:field="*{amount}"
+					<div class="field" th:classappend="${#fields.hasErrors('amount')}?'error'">
+						<label>Amount</label> <input type="number" th:field="*{amount}" 
 							name="amount" />
 					</div>
 				</div>
