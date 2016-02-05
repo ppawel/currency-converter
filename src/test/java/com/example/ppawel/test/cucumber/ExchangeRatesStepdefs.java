@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import com.example.ppawel.service.CurrencyDataProvider;
 import com.example.ppawel.service.CurrencyService;
@@ -29,6 +30,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 @ContextConfiguration(classes = TestConfig.class)
+@TestPropertySource(locations = "classpath:test.properties")
 public class ExchangeRatesStepdefs {
 
 	@Autowired

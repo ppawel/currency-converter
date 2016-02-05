@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import com.example.ppawel.model.User;
 import com.example.ppawel.model.UserRegistrationData;
@@ -30,6 +31,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 @ContextConfiguration(classes = TestConfig.class)
+@TestPropertySource(locations = "classpath:test.properties")
 public class UsersStepdefs {
 
 	@Autowired
