@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,14 @@ public class OERCurrencyDataProvider implements CurrencyDataProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(OERCurrencyDataProvider.class);
 
-	private String latestUrl = "https://openexchangerates.org/api/latest.json?app_id={appId}&base={base}";
+	@Value("${cc.oer.latestUrl}")
+	private String latestUrl;
 
-	private String historicalUrl = "https://openexchangerates.org/api/historical/{date}.json?app_id={appId}&base={base}";
+	@Value("${cc.oer.historicalUrl}")
+	private String historicalUrl;
 
-	// TODO: externalize
-	private String appId = "e48903f3d4ee44e28398792694cd3b77";
+	@Value("${cc.oer.appId}")
+	private String appId;
 
 	private RestTemplate restTemplate = new RestTemplate();
 
