@@ -11,10 +11,6 @@ body {
 	background-color: #DADADA;
 }
 
-body>.grid {
-	height: 100%;
-}
-
 .column {
 	max-width: 1024px;
 }
@@ -24,15 +20,15 @@ body>.grid {
 	<div class="ui middle aligned relaxed centered grid">
 		<div class="center aligned column">
 			<h2 class="ui image header">
-				<div class="content">Check exchange rate</div>
+				<div class="content">Convert</div>
 			</h2>
 
-			<form class="ui equal width form" action="" method="GET">
+			<form class="ui equal width form" th:action="@{/convert}"
+				method="POST" th:object="${convertData}">
 				<div class="fields">
 					<div class="field">
-						<label>Base currency</label> <select
-							th:value="${param.containsKey('base') ? param.base[0] : 'USD'}"
-							name="base">
+						<label>Base currency</label> <select th:field="*{baseCurrency}"
+							name="baseCurrency">
 							<option value="USD">USD</option>
 							<option value="EUR">EUR</option>
 							<option value="GBP">GBP</option>
@@ -40,8 +36,51 @@ body>.grid {
 					</div>
 					<div class="field">
 						<label>Target currency</label> <select
-							th:value="${param.containsKey('target') ? param.target[0] : 'EUR'}"
-							name="target">
+							th:field="*{targetCurrency}" name="targetCurrency">
+							<option value="EUR">EUR</option>
+							<option value="GBP">GBP</option>
+							<option value="USD">USD</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Amount</label> <input type="number" th:field="*{amount}"
+							name="amount" />
+					</div>
+				</div>
+				<div class="field">
+					<input type="submit" class="ui large fluid primary button"
+						value="Convert" />
+				</div>
+			</form>
+
+			<div th:if="*{convertedAmount}" class="ui message">
+				<span th:text="*{convertData.amount}"></span> <span
+					th:text="*{convertData.baseCurrency}"></span> = <span
+					th:text="*{convertedAmount}"></span> <span
+					th:text="*{convertData.targetCurrency}"></span>
+			</div>
+
+			<div th:if="*{conversionFailed}" class="ui error message">
+				Conversion failed - exchange rate not available!</div>
+
+			<h2 class="ui image header">
+				<div class="content">Check exchange rate</div>
+			</h2>
+
+			<form class="ui equal width form" th:action="@{/check}" method="POST"
+				th:object="${checkData}">
+				<div class="fields">
+					<div class="field">
+						<label>Base currency</label> <select th:field="*{baseCurrency}"
+							name="baseCurrency">
+							<option value="USD">USD</option>
+							<option value="EUR">EUR</option>
+							<option value="GBP">GBP</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Target currency</label> <select
+							th:field="*{targetCurrency}" name="targetCurrency">
 							<option value="EUR">EUR</option>
 							<option value="GBP">GBP</option>
 							<option value="USD">USD</option>
@@ -49,7 +88,7 @@ body>.grid {
 					</div>
 					<div class="field">
 						<label>Date (if empty, get latest rate)</label> <input type="text"
-							th:value="*{date}" placeholder="YYYY-MM-DD" name="date" />
+							th:field="*{date}" placeholder="YYYY-MM-DD" name="date" />
 					</div>
 				</div>
 				<div class="field">
@@ -59,9 +98,13 @@ body>.grid {
 			</form>
 
 			<div th:if="*{rate}" class="ui message">
-				Exchange rate <span th:text="${param.base[0]}"></span>/<span
-					th:text="${param.target[0]}"></span>: <span th:text="*{rate}"></span>
+				Exchange rate <span th:text="*{checkData.baseCurrency}"></span>/<span
+					th:text="*{checkData.targetCurrency}"></span>: <span
+					th:text="*{rate}"></span>
 			</div>
+
+			<div th:if="*{checkFailed}" class="ui error message">
+				Check failed - exchange rate not available!</div>
 
 			<h2 class="ui image header">
 				<div class="content">Past queries</div>

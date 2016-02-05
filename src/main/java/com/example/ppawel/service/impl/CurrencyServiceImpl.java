@@ -34,6 +34,15 @@ public class CurrencyServiceImpl implements CurrencyService {
 	}
 
 	@Override
+	public BigDecimal convert(BigDecimal amount, String baseCurrency, String targetCurrency) {
+		BigDecimal rate = provider.getExchangeRate(baseCurrency, targetCurrency);
+		if (rate == null) {
+			return null;
+		}
+		return amount.multiply(rate);
+	}
+
+	@Override
 	public void setProvider(CurrencyDataProvider provider) {
 		this.provider = provider;
 	}

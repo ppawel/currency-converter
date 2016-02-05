@@ -4,6 +4,7 @@ Feature: Exchange Rates
     Given base currency USD
     And target currency EUR
     And mock currency data provider
+    And exchange rate 1.25
     When I ask for current exchange rate
     Then I should get 1.25
 
@@ -34,3 +35,12 @@ Feature: Exchange Rates
     And mock currency data provider
     When I ask 5 times for current exchange rate
     Then I should get at least 5 user queries
+
+  Scenario: Convert using mock
+    Given base currency USD
+    And target currency EUR
+    And mock currency data provider
+    And amount 102.50
+    And exchange rate 0.93
+    When I ask for conversion
+    Then I should get 95.325

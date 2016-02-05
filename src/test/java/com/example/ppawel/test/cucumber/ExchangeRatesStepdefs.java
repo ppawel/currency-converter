@@ -47,9 +47,11 @@ public class ExchangeRatesStepdefs {
 
 	private String targetCurrency;
 
-	private BigDecimal rate;
+	private BigDecimal result;
 
 	private int count;
+
+	private BigDecimal amount;
 
 	@Before
 	public void init() {
@@ -59,7 +61,6 @@ public class ExchangeRatesStepdefs {
 	@Given("^mock currency data provider$")
 	public void mock_currency_data_provider() throws Throwable {
 		provider = mock(CurrencyDataProvider.class);
-		when(provider.getExchangeRate("USD", "EUR")).thenReturn(new BigDecimal(1.25));
 		currencyService.setProvider(provider);
 	}
 
@@ -80,28 +81,28 @@ public class ExchangeRatesStepdefs {
 
 	@When("^I ask for current exchange rate$")
 	public void i_ask_for_current_exchange_rate() throws Throwable {
-		rate = currencyService.getExchangeRate(baseCurrency, targetCurrency);
+		result = currencyService.getExchangeRate(baseCurrency, targetCurrency);
 	}
 
 	@Then("^I should get ([\\d\\.]+)$")
 	public void i_should_get(BigDecimal rate) throws Throwable {
-		assertThat(this.rate, is(rate));
+		assertThat(this.result, is(rate));
 	}
 
 	@Then("^I should get no result$")
 	public void i_should_get_no_result() throws Throwable {
-		assertThat(this.rate, nullValue());
+		assertThat(this.result, nullValue());
 	}
 
 	@Then("^I should get a reasonable result$")
 	public void i_should_get_reasonable() throws Throwable {
-		assertThat(this.rate, greaterThan(new BigDecimal(0.5)));
-		assertThat(this.rate, lessThan(new BigDecimal(1.5)));
+		assertThat(this.result, greaterThan(new BigDecimal(0.5)));
+		assertThat(this.result, lessThan(new BigDecimal(1.5)));
 	}
 
 	@When("^I ask for exchange rate on (.*)$")
 	public void i_ask_for_exchange_rate_on(@Format("yyyy-MM-dd") Date date) throws Throwable {
-		rate = currencyService.getExchangeRate(baseCurrency, targetCurrency, date);
+		result = currencyService.getExchangeRate(baseCurrency, targetCurrency, date);
 	}
 
 	@When("^I ask (\\d+) times for current exchange rate$")
@@ -115,6 +116,21 @@ public class ExchangeRatesStepdefs {
 	@Then("^I should get at least (\\d+) user queries$")
 	public void i_should_get_user_queries(int arg1) throws Throwable {
 		assertThat(userService.listUserQueries().size(), greaterThanOrEqualTo(count));
+	}
+
+	@Given("^amount (.*)$")
+	public void amount(BigDecimal value) throws Throwable {
+		amount = value;
+	}
+
+	@Given("^exchange rate (.*)$")
+	public void exchange_rate(BigDecimal value) throws Throwable {
+		when(provider.getExchangeRate("USD", "EUR")).thenReturn(value);
+	}
+
+	@When("^I ask for conversion$")
+	public void i_ask_for_conversion() throws Throwable {
+		result = currencyService.convert(amount, baseCurrency, targetCurrency);
 	}
 
 }
