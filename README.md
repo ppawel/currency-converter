@@ -38,6 +38,10 @@ This builds a Spring Boot executable jar file with embedded Tomcat.
 
 This should start the embedded Tomcat and the application will be available at http://localhost:8080/.
 
+## Configuration
+
+[application.properties](src/main/resources/application.properties) contains various settings including OpenExchangeRates.org app id which is required for calling the API. These properties can be adjusted according to [the standard Spring Boot way of externalizing configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html).
+
 ## Spring Actuator
 
 After you register and log in you will be able to access Spring Actuator endpoints, e.g. http://localhost:8080/dump for thread dump, health indicators and much more. Full list of endpoints can be found [here](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html).
@@ -52,4 +56,4 @@ http://jenkins.jcore.pl/ (`currency-converter-*` jobs should be accessible witho
 
 ## TODO
 
-* Externalize configuration, e.g. appID used for API calls.
+* Add more user input validation errors ("reasonable" birth date)
