@@ -42,8 +42,9 @@ body {
 							<option value="USD">USD</option>
 						</select>
 					</div>
-					<div class="field" th:classappend="${#fields.hasErrors('amount')}?'error'">
-						<label>Amount</label> <input type="number" th:field="*{amount}" 
+					<div class="field"
+						th:classappend="${#fields.hasErrors('amount')}?'error'">
+						<label>Amount</label> <input type="number" th:field="*{amount}"
 							name="amount" />
 					</div>
 				</div>
@@ -86,7 +87,8 @@ body {
 							<option value="USD">USD</option>
 						</select>
 					</div>
-					<div class="field">
+					<div class="field"
+						th:classappend="${#fields.hasErrors('date')}?'error'">
 						<label>Date (if empty, get latest rate)</label> <input type="text"
 							th:field="*{date}" placeholder="YYYY-MM-DD" name="date" />
 					</div>
@@ -103,8 +105,8 @@ body {
 					th:text="*{rate}"></span>
 			</div>
 
-			<div th:if="*{checkFailed}" class="ui error message">
-				Check failed - exchange rate not available!</div>
+			<div th:if="*{checkFailed}" class="ui error message">Check
+				failed - exchange rate not available!</div>
 
 			<h2 class="ui image header">
 				<div class="content">Past queries</div>
@@ -112,17 +114,20 @@ body {
 
 			<table class="ui table">
 				<thead>
+					<th>Executed</th>
 					<th>Base</th>
 					<th>Target</th>
 					<th>Rate</th>
-					<th>Date</th>
+					<th>Date of exchange rate</th>
 				</thead>
 				<tbody>
 					<tr th:each="row,rowStat : ${queries}">
+						<td th:text="${#dates.format(row.executionDate, 'yyyy-MM-dd')}"></td>
 						<td th:text="${row.baseCurrency}"></td>
 						<td th:text="${row.targetCurrency}"></td>
 						<td th:text="${row.rate}"></td>
-						<td th:text="${row.date} ? ${#dates.formatISO(row.date)}"></td>
+						<td
+							th:text="${row.date} ? ${#dates.format(row.date, 'yyyy-MM-dd HH:mm:ss')}"></td>
 					</tr>
 				</tbody>
 			</table>
