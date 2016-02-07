@@ -3,7 +3,11 @@ package com.example.ppawel.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.ppawel.model.validation.ReasonableDate;
 
 /**
  * Data transfer object for data related to new user registration.
@@ -15,17 +19,24 @@ public class UserRegistrationData implements Serializable {
 
 	private static final long serialVersionUID = -6494230977938111214L;
 
+	@NotBlank
+	@Email
 	private String email;
 
+	@NotBlank
 	private String password;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@ReasonableDate(from = "1900-01-01")
 	private Date birthDate;
 
+	@NotBlank
 	private String street;
 
+	@NotBlank
 	private String city;
 
+	@NotBlank
 	private String countryCode;
 
 	public UserRegistrationData() {

@@ -4,13 +4,11 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,13 +18,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 
 import com.example.ppawel.model.User;
-import com.example.ppawel.model.UserAlreadyExistsException;
 import com.example.ppawel.model.UserRegistrationData;
 import com.example.ppawel.service.UserService;
 
 import cucumber.api.Format;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -49,7 +49,12 @@ public class UsersStepdefs {
 
 	private Exception exception;
 
-	private Set<ConstraintViolation<?>> errors;
+	private Errors errors;
+
+	@Before
+	public void init() {
+		errors = new BeanPropertyBindingResult(data, "");
+	}
 
 	@Given("^e-mail (.*)$")
 	public void e_mail(String email) {
@@ -83,11 +88,7 @@ public class UsersStepdefs {
 
 	@When("^I try to register$")
 	public void i_try_to_register() throws Throwable {
-		try {
-			user = userService.register(data);
-		} catch (ConstraintViolationException e) {
-			errors = e.getConstraintViolations();
-		}
+		user = userService.register(data, errors);
 	}
 
 	@Then("^I should be registered$")
@@ -109,7 +110,12 @@ public class UsersStepdefs {
 
 	@Then("^I should get error messages$")
 	public void i_should_get_error_messages() throws Throwable {
-		assertThat(errors, notNullValue());
+		assertTrue(errors.hasErrors());
+	}
+
+	@Then("^I should get error for field (.*)$")
+	public void i_should_get_error_for_field(String field) throws Throwable {
+		assertTrue(errors.hasFieldErrors(field));
 	}
 
 	@Then("^I should be logged in$")
@@ -127,18 +133,17 @@ public class UsersStepdefs {
 
 	@When("^I try to register twice$")
 	public void i_try_to_register_twice() throws Throwable {
-		// First time we don't catch exceptions
-		user = userService.register(data);
+		// First time there should be no errors
+		user = userService.register(data, errors);
+		assertFalse(errors.hasErrors());
 
-		try {
-			user = userService.register(data);
-		} catch (UserAlreadyExistsException e) {
-			exception = e;
-		}
+		// Reset errors, register again with the same e-mail
+		errors = new BeanPropertyBindingResult(data, "");
+		user = userService.register(data, errors);
 	}
 
 	@Then("^I should get an error the second time$")
 	public void i_should_get_an_error_the_second_time() throws Throwable {
-		assertThat(exception, instanceOf(UserAlreadyExistsException.class));
+		assertThat(errors.getFieldError("email").getCode(), is("user-exists"));
 	}
 }

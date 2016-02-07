@@ -12,13 +12,13 @@ Feature: Users
 
   Scenario: Registration - bad e-mail
     Given e-mail test
-    And password 123456
-    And date of birth 1984-01-22
-    And street Test Street
-    And city Kraków
-    And country PL
     When I try to register
-    Then I should get error messages
+    Then I should get error for field email
+
+  Scenario: Registration - bad e-mail2
+    Given e-mail test@.test
+    When I try to register
+    Then I should get error for field email
 
   Scenario: Login - successful
     Given e-mail test@test.com
@@ -40,4 +40,17 @@ Feature: Users
     And city Kraków
     And country PL
     When I try to register twice
-    Then I should get an error the second time
+    Then I should get error for field email
+
+  Scenario: Registration - no data
+    When I try to register
+    Then I should get error for field email
+    And I should get error for field birthDate
+    And I should get error for field city
+    And I should get error for field street
+    And I should get error for field password
+
+  Scenario: Registration - bad date
+    Given date of birth 1503-12-01
+    When I try to register
+    Then I should get error for field birthDate

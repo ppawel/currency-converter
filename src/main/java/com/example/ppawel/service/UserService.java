@@ -2,13 +2,11 @@ package com.example.ppawel.service;
 
 import java.util.List;
 
-import javax.validation.ConstraintViolationException;
-
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.Errors;
 
 import com.example.ppawel.model.User;
-import com.example.ppawel.model.UserAlreadyExistsException;
 import com.example.ppawel.model.UserQuery;
 import com.example.ppawel.model.UserRegistrationData;
 
@@ -22,17 +20,17 @@ import com.example.ppawel.model.UserRegistrationData;
 public interface UserService extends UserDetailsService {
 
 	/**
-	 * Attempts to register a new user.
+	 * Attempts to register a new user - performs validation of input data,
+	 * checks if user exists.
 	 * 
 	 * @param data
 	 *            input data to use
-	 * @return saved user
-	 * @throws UserAlreadyExistsException
-	 *             when user already exists in the database
-	 * @throws ConstraintViolationException
-	 *             when input data does not pass validation
+	 * @param errors
+	 *            used for recording errors during registration
+	 * @return saved user or <code>null</code> if there were errors
+	 * 
 	 */
-	User register(UserRegistrationData data) throws UserAlreadyExistsException;
+	User register(UserRegistrationData data, Errors errors);
 
 	/**
 	 * Lists saved user queries for the currently logged in user.
