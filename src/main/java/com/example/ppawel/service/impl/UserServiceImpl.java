@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.ppawel.dao.UserQueryRepository;
 import com.example.ppawel.dao.UserRepository;
 import com.example.ppawel.model.User;
+import com.example.ppawel.model.UserAlreadyExistsException;
 import com.example.ppawel.model.UserQuery;
 import com.example.ppawel.model.UserRegistrationData;
 import com.example.ppawel.service.UserService;
@@ -37,7 +38,12 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public User register(UserRegistrationData data) {
+	public User register(UserRegistrationData data) throws UserAlreadyExistsException {
+		// Check if user exists
+		if (repository.findByEmail(data.getEmail()) != null) {
+			throw new UserAlreadyExistsException();
+		}
+
 		User user = new User();
 
 		user.setEmail(data.getEmail());

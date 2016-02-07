@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,15 +25,35 @@ public class UserQuery implements Serializable {
 	@GeneratedValue
 	private Long id;
 
+	/**
+	 * Date of execution of this query. By default it's the current date at the
+	 * time of creation of this object.
+	 */
+	private Date executionDate = new Date();
+
+	/**
+	 * E-mail of the user.
+	 */
 	@NotNull
 	private String email;
 
+	/**
+	 * Base currency.
+	 */
 	private String baseCurrency;
 
+	/**
+	 * Target currency.
+	 */
 	private String targetCurrency;
 
+	/**
+	 * Date of exchange rate as queried by the user (<code>null</code> means
+	 * "latest rate" was queried).
+	 */
 	private Date date;
 
+	@Column(precision = 12, scale = 9)
 	private BigDecimal rate;
 
 	public UserQuery() {
@@ -44,6 +65,14 @@ public class UserQuery implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Date getExecutionDate() {
+		return executionDate;
+	}
+
+	public void setExecutionDate(Date executionDate) {
+		this.executionDate = executionDate;
 	}
 
 	public String getEmail() {

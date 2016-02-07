@@ -2,8 +2,6 @@ package com.example.ppawel.model;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -46,4 +44,9 @@ public class CheckData {
 		this.targetCurrency = targetCurrency;
 	}
 
+	@Override
+	public String toString() {
+		return "CheckData [baseCurrency=" + baseCurrency + ", targetCurrency=" + targetCurrency + ", date=" + date
+				+ "]";
+	}
 }

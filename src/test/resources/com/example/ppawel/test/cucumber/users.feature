@@ -31,3 +31,13 @@ Feature: Users
     And password someotherpassword
     When I try to login
     Then I should fail to log in
+
+  Scenario: Registration - same e-mail twice
+    Given e-mail test2@test.com
+    And password 123456
+    And date of birth 1984-01-22
+    And street Test Street
+    And city Kraków
+    And country PL
+    When I try to register twice
+    Then I should get an error the second time

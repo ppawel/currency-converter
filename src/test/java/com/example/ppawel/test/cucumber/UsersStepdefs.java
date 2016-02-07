@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
 import com.example.ppawel.model.User;
+import com.example.ppawel.model.UserAlreadyExistsException;
 import com.example.ppawel.model.UserRegistrationData;
 import com.example.ppawel.service.UserService;
 
@@ -46,7 +47,7 @@ public class UsersStepdefs {
 
 	private Authentication loggedIn;
 
-	private AuthenticationException exception;
+	private Exception exception;
 
 	private Set<ConstraintViolation<?>> errors;
 
@@ -124,4 +125,20 @@ public class UsersStepdefs {
 		assertThat(exception, instanceOf(BadCredentialsException.class));
 	}
 
+	@When("^I try to register twice$")
+	public void i_try_to_register_twice() throws Throwable {
+		// First time we don't catch exceptions
+		user = userService.register(data);
+
+		try {
+			user = userService.register(data);
+		} catch (UserAlreadyExistsException e) {
+			exception = e;
+		}
+	}
+
+	@Then("^I should get an error the second time$")
+	public void i_should_get_an_error_the_second_time() throws Throwable {
+		assertThat(exception, instanceOf(UserAlreadyExistsException.class));
+	}
 }

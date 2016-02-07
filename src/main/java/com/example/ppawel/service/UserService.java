@@ -8,6 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.example.ppawel.model.User;
+import com.example.ppawel.model.UserAlreadyExistsException;
 import com.example.ppawel.model.UserQuery;
 import com.example.ppawel.model.UserRegistrationData;
 
@@ -26,10 +27,12 @@ public interface UserService extends UserDetailsService {
 	 * @param data
 	 *            input data to use
 	 * @return saved user
+	 * @throws UserAlreadyExistsException
+	 *             when user already exists in the database
 	 * @throws ConstraintViolationException
 	 *             when input data does not pass validation
 	 */
-	User register(UserRegistrationData data);
+	User register(UserRegistrationData data) throws UserAlreadyExistsException;
 
 	/**
 	 * Lists saved user queries for the currently logged in user.

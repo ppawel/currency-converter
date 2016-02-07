@@ -49,4 +49,9 @@ public class ConvertData {
 		this.targetCurrency = targetCurrency;
 	}
 
+	@Override
+	public String toString() {
+		return "ConvertData [baseCurrency=" + baseCurrency + ", targetCurrency=" + targetCurrency + ", amount=" + amount
+				+ "]";
+	}
 }

@@ -3,6 +3,7 @@ package com.example.ppawel.model;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,10 +11,17 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Represents a user of the application. User is uniquely identified by their
+ * e-mail. Implements {@link UserDetails} interface so it can be used in Spring
+ * Security.
+ * 
+ * @author ppawel
+ *
+ */
 @Entity
 public class User implements UserDetails {
 
@@ -25,6 +33,7 @@ public class User implements UserDetails {
 
 	@NotBlank
 	@Email
+	@Column(unique = true)
 	private String email;
 
 	private String password;

@@ -2,7 +2,6 @@ package com.example.ppawel.web;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -58,6 +57,8 @@ public class HomeController {
 		model.addAttribute("convertData", new ConvertData());
 		model.addAttribute("queries", userService.listUserQueries());
 
+		log.debug("check [data = {}]", data);
+
 		if (result.hasErrors()) {
 			return "home";
 		}
@@ -84,6 +85,8 @@ public class HomeController {
 		model.addAttribute("checkData", new CheckData());
 		model.addAttribute("queries", userService.listUserQueries());
 
+		log.debug("convert [data = {}]", data);
+
 		if (result.hasErrors()) {
 			return "home";
 		}
@@ -99,18 +102,4 @@ public class HomeController {
 
 		return "home";
 	}
-
-	private void check(Model model, String baseCurrency, String targetCurrency, String dateString) {
-		Date date = null;
-
-		if (dateString != null) {
-			try {
-				date = DATE_FORMAT.parse(dateString);
-			} catch (ParseException e) {
-				// Ignore
-			}
-		}
-
-	}
-
 }

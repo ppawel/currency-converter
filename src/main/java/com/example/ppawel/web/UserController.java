@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.ppawel.model.UserAlreadyExistsException;
 import com.example.ppawel.model.UserRegistrationData;
 import com.example.ppawel.service.UserService;
 
@@ -31,21 +32,27 @@ public class UserController {
 	public String register(Model model, @ModelAttribute("data") @Valid UserRegistrationData data,
 			BindingResult result) {
 
-		if (!result.hasErrors()) {
-			try {
-				userService.register(data);
-				// If registration successful, reset form data
-				model.addAttribute("data", new UserRegistrationData());
-			} catch (ConstraintViolationException e) {
-				// Convert Bean Validation exceptions to Spring errors so they
-				// are shown to the user
-				e.getConstraintViolations().forEach(cv -> {
-					result.addError(new FieldError("user", cv.getPropertyPath().toString(), cv.getMessage()));
-				});
-			}
+		if (result.hasErrors()) {
+			model.addAttribute("registered", false);
+			return "login";
+		}
+
+		try {
+			userService.register(data);
+			// If registration successful, reset form data
+			model.addAttribute("data", new UserRegistrationData());
+		} catch (UserAlreadyExistsException e) {
+			result.addError(new FieldError("user", "email", "User already exists"));
+		} catch (ConstraintViolationException e) {
+			// Convert Bean Validation exceptions to Spring errors so they
+			// are shown to the user
+			e.getConstraintViolations().forEach(cv -> {
+				result.addError(new FieldError("user", cv.getPropertyPath().toString(), cv.getMessage()));
+			});
 		}
 
 		model.addAttribute("registered", !result.hasErrors());
+
 		return "login";
 	}
 }
