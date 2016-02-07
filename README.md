@@ -16,7 +16,7 @@ My implementation may seem overengineered in some places but it was a conscious 
 
 * __Ehcache__ - for caching external calls, nicely integrates with Spring thanks to Spring Boot's autoconfiguration features (when ehcache is detected on classpath, configured cache manager is automatically created for you). [ehcache.xml](/src/main/resources/ehcache.xml) contains settings for cache sizing, TTL, persistence...
 
-* __Thymeleaf__ - pretty cool view technology which nicely integrates with Spring MVC. This was actually my first time using it and I chose it because I just couldn't bring myself to using JSP or Freemarker in 2016...
+* __Thymeleaf__ - pretty cool view technology which nicely integrates with Spring MVC. This was actually my first time using it and I chose it because I just couldn't bring myself to using JSP in 2016 ;-)
 
 * __Cucumber__ - for BDD-style tests - take a look at scenarios [here](/src/test/resources/com/example/ppawel/test/cucumber).
 
